@@ -1,0 +1,10 @@
+## pytPython
+venv
+__pycache__
+*.pyc
+
+## Environment
+.env
+
+## VS Code
+.vscode
