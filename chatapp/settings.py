@@ -33,6 +33,8 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'chatuser',
+    'chat',
     'rest_framework.authtoken',
 ]
 
@@ -73,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chatapp.wsgi.application'
+# WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 
 # Database
@@ -141,3 +144,17 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+
+# Django Channels
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [('localhost', 6379)]
+        }
+
+    },
+}
+
+# Use ASGI instead of WSGI for Django Channels
+ASGI_APPLICATION = 'chatapp.asgi.application'

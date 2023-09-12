@@ -34,3 +34,11 @@ def start_chat(request):
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def send(request):
+    print("SENDING MESSAGE")
+    return Response({'message': 'Chat sent successfully'}, status=status.HTTP_200_OK)
