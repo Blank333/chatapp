@@ -11,11 +11,13 @@ from rest_framework.authtoken.models import Token
 @api_view(['POST'])
 def register(request):
     try:
+        print(request.data)  # Print the request data for debugging
+
         serializer = ChatUserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            user = serializer.save()
+            return Response({'message': 'User registered successfully', 'user_email': user.email}, status=status.HTTP_201_CREATED)
+        return Response({'Error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     except Exception as error:
         return Response({'Error': error}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
