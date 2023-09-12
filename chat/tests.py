@@ -6,7 +6,7 @@ from chat.consumers import ChatSocketConsumer
 class ChatSocketConsumerTest(TestCase):
     async def test_chat_socket_consumer(self):
         communicator = WebsocketCommunicator(
-            ChatSocketConsumer.as_asgi(), "/ws/send/")
+            ChatSocketConsumer.as_asgi(), "send/")
         connected, _ = await communicator.connect()
 
         self.assertTrue(connected)

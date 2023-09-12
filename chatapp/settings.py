@@ -76,6 +76,7 @@ TEMPLATES = [
     },
 ]
 
+# Disabled WSGI
 # WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 
