@@ -48,18 +48,8 @@ def get_online(request):
             is_online=True).values('id', 'name', 'age')
 
         if users:
-            res = {}
-            for user in users:
-                user_interests = UserInterest.objects.filter(
-                    user_id=user['id']).values('interest', 'preference_score')
-
-                user['interests'] = user_interests
-                res[user['name']] = user
-
-            return Response(res, status=status.HTTP_200_OK)
+            return Response(users, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'No online users found'}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    return Response(res)
