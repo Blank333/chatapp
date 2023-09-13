@@ -48,7 +48,7 @@ def login(request):
 def get_online(request):
     try:
         users = ChatUser.objects.filter(
-            is_online=True).values('id', 'name', 'age')
+            is_online=True).values('id', 'email', 'name', 'age')
 
         if users:
             return Response(users, status=status.HTTP_200_OK)

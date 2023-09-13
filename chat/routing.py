@@ -3,13 +3,6 @@ from django.urls import path
 from .consumers import ChatSocketConsumer
 
 websocket_urlpatterns = [
-    path('send/', ChatSocketConsumer.as_asgi(), name='ChatSocketConsumer'),
+    path('api/chat/send/', ChatSocketConsumer.as_asgi(),
+         name='ChatSocketConsumer'),
 ]
-
-application = ProtocolTypeRouter(
-    {
-        "websocket": URLRouter(
-            websocket_urlpatterns
-        ),
-    }
-)
