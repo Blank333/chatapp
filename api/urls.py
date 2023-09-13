@@ -1,19 +1,13 @@
 from django.urls import path
-from .views import register, login, get_online
+from .views import register, login, get_online, suggested_friends
 
 urlpatterns = [
 
     path('register/', register, name='register'),
     path('login/', login, name='login'),
-    path('online-users/', get_online, name='get_online'),
+    path('online-users/', get_online, name='get-online'),
+    path('suggested-friends/<int:user_id>/',
+         suggested_friends, name='suggested-friends'),
 
-    # TODO
 
-    # path('suggested-friends/', api_home, name='api_home'),
 ]
-
-# Get online users: GET /api/online-users/
-# Recommended friends: GET /api/suggested–friends/<user_id>
-
-# Start a chat: POST /api/chat/start/
-# Send a message: WEBSOCKET /api/chat/send/
