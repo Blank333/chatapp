@@ -6,6 +6,9 @@ from .serializers import StartChatSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+import json
+import websockets
+
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
@@ -34,3 +37,45 @@ def start_chat(request):
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# TODO
+async def websocket_handler(websocket, path):
+    # WebSocket connections
+
+    try:
+        async for message in websocket:
+            data = json.loads(message)
+            receiver_email = data.get('receiver_email')
+            message_content = data.get('message_content')
+
+            if not (receiver_email and message_content):
+                await websocket.send(json.dumps({'error': 'Both receiver_email and message_content are required.'}))
+                continue
+
+            await websocket.send(json.dumps({'message': 'Message sent successfully.'}))
+
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+
+# @api_view(['POST'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+
+@api_view(['POST'])
+async def send(request):
+    data = {
+        'receiver_email': 'User954@example.com',
+        'message_content': 'Hello, WebSocket!'
+    }
+
+    async def send_message():
+        async with websockets.connect('ws://localhost:8000/ws/chat/send/') as websocket:
+            await websocket.send(json.dumps(data))
+            response = await websocket.recv()
+            return Response({'response': response})
+
+    response = await send_message()
+
+    return Response({'response': response})
